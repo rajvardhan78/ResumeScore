@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume</title>
+</head>
+<body>
+    <h1>Upload Your Resume</h1>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" id="uploadForm">
+        {% csrf_token %}
+        <input type="file" name="resume" accept=".pdf,.docx,.doc" required>
+        <button type="submit">Upload</button>
+    </form>
+    <div id="resultSection" style="display: none;">
+        <h2>Resume Analysis Result</h2>
+        <p id="score"></p>
+        <ul id="improvements"></ul>
+    </div>
+    <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        
+        fetch('/upload_resume/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                // Populate the result page
+                document.getElementById('score').textContent = data.score;
+                var improvementsList = document.getElementById('improvements');
+                improvementsList.innerHTML = '';
+                data.improvements.forEach(function(improvement) {
+                    var li = document.createElement('li');
+                    li.textContent = improvement;
+                    improvementsList.appendChild(li);
+                });
+                // Show the result section
+                document.getElementById('resultSection').style.display = 'block';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing the request.');
+        });
+    });
+    </script>
+</body>
+</html>

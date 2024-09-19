@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis Result</title>
+</head>
+<body>
+    <h1>Resume Analysis Result</h1>
+    <h2>Overall Score: {{ overall_score }}</h2>
+    <h3>Sections Scores:</h3>
+    <ul>
+        {% for section, score in section_scores.items %}
+            <li>{{ section }}: {{ score }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Suggested Improvements:</h3>
+    <ul>
+    {% for improvement in improvements %}
+        <li>{{ improvement }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
