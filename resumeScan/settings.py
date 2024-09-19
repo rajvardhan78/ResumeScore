@@ -121,9 +121,3 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
-
-aws_access_key = config("aws_access_key")
-aws_secret_key = config("aws_secret_key")
-aws_storage_bucket_name = config("aws_storage_bucket_name")
-aws_storage_region = config("aws_storage_region")
